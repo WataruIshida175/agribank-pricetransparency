@@ -1,0 +1,27 @@
+<div id="bg-content">
+            <div id="table">
+                <table class="table table-sm table-hover table-striped" width="100%">
+                    <thead>
+                        <tr class="row">
+                            <th class="col-md-4"><a>商品名</a></th>
+                            <th class="col-md-8"><a>有効成分</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% @chemicals.each do |chemical| %>
+                            <tr class="row">
+                                <td class="col-md-4">
+                                    <div><a href="/chemicals/<%= chemical.id %>"><%= chemical.content %></a></div>
+                                </td>
+                                <td class="col-md-6">
+                                    <div><%= chemical.content %></div>
+                                </td>
+                                <td class="col-md-2 text-center">
+                                    <div><a href='/chemicals/<%= chemical.id %>'><span>商品詳細</span></a></div>
+                                </td>
+                            </tr>
+                            <% end %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
