@@ -10,12 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_04_094852) do
+ActiveRecord::Schema.define(version: 2020_02_04_162624) do
 
   create_table "chemicals", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "chemical_id"
+    t.string "chemical_type"
+    t.string "chemical_name"
+    t.string "chemical_formal_name"
+    t.string "how_to_use"
+    t.string "dosage_form_name"
+    t.date "registration_date"
   end
 
 end
