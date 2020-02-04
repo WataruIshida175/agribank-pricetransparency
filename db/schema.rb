@@ -10,11 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_04_162624) do
+ActiveRecord::Schema.define(version: 2020_02_04_173222) do
 
   create_table "chemicals", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "chemical_id"
     t.string "chemical_type"
     t.string "chemical_name"
