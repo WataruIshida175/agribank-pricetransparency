@@ -4,7 +4,8 @@
                     <thead>
                         <tr class="row">
                             <th class="col-md-4"><a>商品名</a></th>
-                            <th class="col-md-8"><a>有効成分</a></th>
+                            <th class="col-md-2"><a>種類</a></th>
+                            <th class="col-md-6"><a>有効成分</a></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -13,10 +14,13 @@
                                 <td class="col-md-4">
                                     <div><a href="/chemicals/<%= chemical.chemical_id %>"><%= chemical.chemical_name %></a></div>
                                 </td>
-                                <td class="col-md-6">
+                                <td class="col-md-2">
+                                    <div><%= chemical.how_to_use %></div>
+                                </td>
+                                <td class="col-md-5">
                                     <div><%= chemical.chemical_type %></div>
                                 </td>
-                                <td class="col-md-2 text-center">
+                                <td class="col-md-1 text-center">
                                     <div><a href='/chemicals/<%= chemical.chemical_id %>'><span>商品詳細</span></a></div>
                                 </td>
                             </tr>
