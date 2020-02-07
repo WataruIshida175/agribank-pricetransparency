@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_04_173222) do
+ActiveRecord::Schema.define(version: 2020_02_06_133512) do
 
   create_table "chemicals", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "chemical_id"
@@ -20,6 +20,17 @@ ActiveRecord::Schema.define(version: 2020_02_04_173222) do
     t.string "how_to_use"
     t.string "dosage_form_name"
     t.date "registration_date"
+  end
+
+  create_table "records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "chemical_id"
+    t.integer "paid_price"
+  end
+
+  create_table "sales", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "chemical_id"
+    t.integer "agribank_price"
+    t.string "unit"
   end
 
 end

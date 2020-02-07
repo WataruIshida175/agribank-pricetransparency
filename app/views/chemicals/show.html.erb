@@ -1,5 +1,42 @@
 <div id="bg-content">
-<h2><%= @chemical.chemical_name %></h2>
-<p><%= @chemical.how_to_use %></p>
-<p><a href="/chemicals">商品一覧</a></p>
+  <p class="text-right" id="all_products"><a href="/chemicals">商品一覧</a></p>
+  <h2><%= @chemical.chemical_name %></h2>
+  <div>
+    <p><%= @chemical.chemical_type %></p>
+    <p><a id="how_to_use"><%= @chemical.how_to_use %></a></p>
+  </div>
+</div>
+
+<div id="bg-content">
+  <p><strong>価格比較</strong></p>
+  <hr>
+  <div id="average_price">市場平均価格：
+    <% if @avePrice.present? and @sale.unit.present? %>
+      <strong><%= @avePrice.round.to_s(:delimited) %>円/<%= @unit %></strong><small>（税込）</small>
+    <% else %>
+      <%= "十分なデータがありません" %>
+    <% end %>
+  </div>
+  
+  <% if @avePrice.present? %>
+  <ul>
+    <li>最大価格：<%= @maxPrice.to_s(:delimited) %>円/<%= @unit %></li>
+    <li>最低価格：<%= @minPrice.to_s(:delimited) %>円/<%= @unit %></li>
+    <li>他の農家の購入価格実例：<% @records.each do |record| %><%= record.paid_price.to_s(:delimited) %> - <% end %></li>
+    <small><strong>価格実例について：</strong>価格は、AgriBank会員（請求書や見積書）・資材通販会社（販売価格）からのデータを含みます。一部の農家は、購入後、業者からの奨励金や値引きを受けています。</small>
+  </ul>
+  <% end %>
+  
+  <div id="agribank_price">AgriBank販売価格：
+    <% if @sale.present? %>
+      <% if @sale.agribank_price.present? & !@sale.agribank_price.zero? %>
+        <strong><%= @sale.agribank_price.to_s(:delimited) %>円/<%= @unit %></strong><small>（税込）※送料別</small>
+      <% else %>
+        <%= "AgriBankでは現在販売しておりません" %>
+      <% end %>
+    <% else %>
+      <%= "AgriBankでは現在販売しておりません" %>
+    <% end %>
+  </div>
+
 </div>

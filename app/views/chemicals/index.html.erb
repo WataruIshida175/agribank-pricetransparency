@@ -1,4 +1,11 @@
 <div id="bg-content">
+    <div>
+        <%= form_with(url: chemicals_path, method: :get, local: true) do |f| %>
+            <%= f.text_field :chemical_name, :placeholder => "農薬商品名で検索" %>
+            <%= f.submit '検索' %>
+        <% end %>
+    </div>
+            
             <div id="table">
                 <table class="table table-sm table-hover table-striped" width="100%">
                     <thead>
