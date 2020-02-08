@@ -5,8 +5,21 @@ class ChemicalsController < ApplicationController
   def index
     if params[:chemical_name]
       @chemicals = Chemical.where(['chemical_name LIKE ?', "%#{params[:chemical_name]}%"])
+      @records = Record.all
+      @ingredients = Ingredient.all
+      @applications = Application.all
+    elsif params[:crop]
+      @chemIds = Application.where(['crop LIKE ?', "%#{params[:crop]}%"]).pluck(:chemical_id)
+      @chemicals = Chemical.where(how_to_use: params[:chemical_type]).where(chemical_id: @chemIds)
+      @records = Record.all
+      @ingredients = Ingredient.all
+      @applications = Application.all
     else
-      @chemicals = Chemical.all
+      @chemIds = Application.where(['crop LIKE ?', "%きゅうり%"]).pluck(:chemical_id)
+      @chemicals = Chemical.where(how_to_use: "殺菌剤").where(chemical_id: @chemIds)
+      @records = Record.all
+      @ingredients = Ingredient.all
+      @applications = Application.all
     end
   end 
   
@@ -16,7 +29,7 @@ class ChemicalsController < ApplicationController
     
     case @chemicalForm
     when '乳剤','液剤','水溶剤','水和剤','塗布剤','油剤' then 
-      @unit = 'l'
+      @unit = 'L'
     when 'くん蒸剤','粒剤','粉末','粉粒末','ペースト剤','エアゾル','その他','くん煙剤','マイクロカプセル剤','農薬肥料' then 
       @unit = 'kg'
     else

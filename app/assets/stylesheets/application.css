@@ -39,10 +39,22 @@ nav {
   background-color: #1b2023;
 }
 
+
+#bg-search {
+  padding: 5px 20px;
+  margin-bottom: 15px;
+}
+
+#bg-filter {
+  background-color: rgb(229, 239, 247);
+  padding: 10px 20px 3px 20px;
+  margin-bottom: 15px;
+}
+
 #bg-content {
   background-color: white;
   padding: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 #table {
@@ -80,4 +92,10 @@ table tr td {
   border-radius: 2px;
   color: gray;
   padding: 2px 5px;
+}
+
+.input-group.md-form.form-sm.form-1 input{
+border: 1px solid #bdbdbd;
+border-top-right-radius: 0.25rem;
+border-bottom-right-radius: 0.25rem;
 }

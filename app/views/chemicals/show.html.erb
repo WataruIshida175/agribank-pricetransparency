@@ -19,10 +19,14 @@
   </div>
   
   <% if @avePrice.present? %>
+  <% paid_prices = Array.new %>
+  <% @records.each do |record| %>
+    <% paid_prices.push(record.paid_price.to_s(:delimited)) %>
+  <% end %>
   <ul>
     <li>最大価格：<%= @maxPrice.to_s(:delimited) %>円/<%= @unit %></li>
     <li>最低価格：<%= @minPrice.to_s(:delimited) %>円/<%= @unit %></li>
-    <li>他の農家の購入価格実例：<% @records.each do |record| %><%= record.paid_price.to_s(:delimited) %> - <% end %></li>
+    <li>他の農家の購入価格実例：<%= paid_prices.join(' - ') %></li>
     <small><strong>価格実例について：</strong>価格は、AgriBank会員（請求書や見積書）・資材通販会社（販売価格）からのデータを含みます。一部の農家は、購入後、業者からの奨励金や値引きを受けています。</small>
   </ul>
   <% end %>

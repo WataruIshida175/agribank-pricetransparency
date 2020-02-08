@@ -1,38 +1,66 @@
-<div id="bg-content">
-    <div>
+<div id="bg-search">
+    <form class="form-inline">
         <%= form_with(url: chemicals_path, method: :get, local: true) do |f| %>
-            <%= f.text_field :chemical_name, :placeholder => "農薬商品名で検索" %>
-            <%= f.submit '検索' %>
+        <div class="form-group mr-sm-3 mb-2 w-75"><%= f.text_field :chemical_name, class:"form-control w-100 border-success", :placeholder => "農薬商品名で検索　　例：「アドマイヤー」" %></div>
+        <div><%= f.submit '検索', class:"btn btn-success mb-2" %></div>
         <% end %>
+    </form>
+</div>
+
+<div id="bg-filter">
+    <form class="form-inline">
+    <%= form_with(url: chemicals_path, method: :get, local: true) do |f| %>
+        <div class="form-group mb-2"><%= select_tag 'crop', options_for_select([["水稲","稲"], ["いちご","いちご"], ["きゅうり","きゅうり"], ["トマト","トマト"], ["大豆","だいず"], ["小麦","小麦"]]), prompt:"品目", class:"form-control" %></div>
+        <div class="form-group mx-sm-3 mb-2"><%= select_tag 'chemical_type', options_for_select([["殺虫剤","殺虫剤"], ["殺菌剤","殺菌剤"], ["除草剤","除草剤"]]), prompt:"農薬の種類", class:"form-control" %></div>
+        <div><%= f.submit '絞り込み', class:"btn btn-info mb-2"%></div>
+    <% end %>
+    </form>
+</div>
+
+<div id="bg-content">
+
+    <div id="table">
+        <table class="table table-sm table-hover table-striped" width="100%">
+            <thead>
+                <tr class="row">
+                    <th class="col-md-4 border-top-0"><a>商品名</a></th>
+                    <th class="col-md-4 border-top-0"><a>有効成分</a></th>
+                    <th class="col-md-4 border-top-0"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @chemicals.each do |chemical| %>
+                    <tr class="row">
+                        <% ingredients = Array.new %>
+                        <% @ingredients.where(chemical_id: chemical.chemical_id).each do |ingredient| %>
+                        <% ingredients.push(ingredient.ingredient) %> 
+                        <% end %>                        
+
+                        <% minPrice = @records.where(chemical_id: chemical.chemical_id).minimum("paid_price") %>
+                        <% maxPrice = @records.where(chemical_id: chemical.chemical_id).maximum("paid_price") %>
+                        <% case chemical.dosage_form_name %>
+                        <% when '乳剤','液剤','水溶剤','水和剤','塗布剤','油剤' then %>
+                            <% unit = 'L' %>
+                        <% when 'くん蒸剤','粒剤','粉末','粉粒末','ペースト剤','エアゾル','その他','くん煙剤','マイクロカプセル剤','農薬肥料' then %>
+                            <% unit = 'kg' %>
+                        <% else %>
+                            <% unit = 'kg' %>
+                        <% end %>
+
+                        <% if minPrice.present? and unit.present? %>
+                            <td class="col-md-4"><div><a href="/chemicals/<%= chemical.chemical_id %>"><%= chemical.chemical_name %></a></div></td>
+                            <td class="col-md-4"><div><%= ingredients.join(' + ') %></div></td>
+                            <td class="col-md-3 text-right"><div>￥<%= minPrice.round.to_s(:delimited) %>〜<%= maxPrice.round.to_s(:delimited) %> / <%= unit %></div></td>
+                            <td class="col-md-1 text-right"><div><a href='/chemicals/<%= chemical.chemical_id %>'><span>相場詳細</span></a></div></td>
+                        <% else %>
+                            <td class="col-md-4"><div><%= chemical.chemical_name %></div></td>
+                            <td class="col-md-4"><div><%= ingredients.join(' + ') %></div></td>
+                            <td class="col-md-3"></td>
+                            <td class="col-md-1"></td>
+                        <% end %>
+                    </tr>
+                    <% end %>
+            </tbody>
+        </table>
     </div>
-            
-            <div id="table">
-                <table class="table table-sm table-hover table-striped" width="100%">
-                    <thead>
-                        <tr class="row">
-                            <th class="col-md-4"><a>商品名</a></th>
-                            <th class="col-md-2"><a>種類</a></th>
-                            <th class="col-md-6"><a>有効成分</a></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% @chemicals.each do |chemical| %>
-                            <tr class="row">
-                                <td class="col-md-4">
-                                    <div><a href="/chemicals/<%= chemical.chemical_id %>"><%= chemical.chemical_name %></a></div>
-                                </td>
-                                <td class="col-md-2">
-                                    <div><%= chemical.how_to_use %></div>
-                                </td>
-                                <td class="col-md-5">
-                                    <div><%= chemical.chemical_type %></div>
-                                </td>
-                                <td class="col-md-1 text-center">
-                                    <div><a href='/chemicals/<%= chemical.chemical_id %>'><span>商品詳細</span></a></div>
-                                </td>
-                            </tr>
-                            <% end %>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+</div>
